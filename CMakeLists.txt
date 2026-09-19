@@ -106,6 +106,20 @@ enable_testing()
 add_test(NAME dsp COMMAND ocdsp)
 
 # --------------------------------------------------------------------------------------
+# The three file tools below are for the docs and the video, not the release: each
+# console app compiles the JUCE modules over again, which on a CI runner turned a
+# ten-minute plugin build into a forty-minute one. ocdsp above is always built, because
+# CI runs it.
+# --------------------------------------------------------------------------------------
+option(OCCLUDER_BUILD_TOOLS "Build ocshot, ocrender and ocfilm (docs and video tools)" ON)
+if(DEFINED ENV{CI})
+    set(OCCLUDER_BUILD_TOOLS OFF)
+endif()
+if(NOT OCCLUDER_BUILD_TOOLS)
+    return()
+endif()
+
+# --------------------------------------------------------------------------------------
 # ocshot - renders the real editor to a PNG, offscreen, for the README and the guide.
 # See the comment at the top of tools/ocshot.cpp.
 # --------------------------------------------------------------------------------------

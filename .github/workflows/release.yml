@@ -52,6 +52,16 @@ jobs:
       - name: Build
         run: cmake --build build --config Release --parallel
 
+      # The DSP checks, against the binary this job is about to ship. No host, no
+      # audio device, no window - see tools/ocdsp.cpp.
+      - name: DSP checks
+        shell: bash
+        run: |
+          bin="$(find build -type f -name ocdsp -perm -u+x | head -1)"
+          [ -n "$bin" ] || bin="$(find build -type f -name ocdsp.exe | head -1)"
+          echo "running $bin"
+          "$bin"
+
       - name: Derive version
         id: ver
         shell: bash
