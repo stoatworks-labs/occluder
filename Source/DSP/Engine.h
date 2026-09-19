@@ -3,7 +3,10 @@
  * per channel, and a smoothed knob.
  *
  * Nothing in process() allocates or locks. The channel states are sized in
- * prepare(); the design is a value type rebuilt in place. The knob is ramped
+ * prepare(); the design is a value type rebuilt in place. Nothing in
+ * Source/DSP/ includes JUCE: the same files are compiled to WebAssembly for
+ * the browser demo (tools/web/build.sh), so the demo runs the shipped DSP and not a
+ * port of it. The knob is ramped
  * over `rampSeconds` and the sections are redesigned at sub-block boundaries
  * while it moves, so an automation sweep from 0 to 100 is 75-odd small steps
  * rather than one jump - tools/ocdsp.cpp measures that nothing clicks.
@@ -16,11 +19,10 @@
  */
 #pragma once
 
-#include <juce_audio_basics/juce_audio_basics.h>
-
 #include <vector>
 
 #include "OcclusionCurve.h"
+#include "Ramp.h"
 
 namespace occluder
 {
@@ -65,7 +67,7 @@ private:
     static constexpr double quietThreshold = 1e-10;
 
     double sampleRate = 48000.0;
-    juce::SmoothedValue<double, juce::ValueSmoothingTypes::Linear> smoother { 0.0 };
+    Ramp smoother;
     CurveDesign design;
     std::vector<ChannelState> states;
     bool passThrough = true;

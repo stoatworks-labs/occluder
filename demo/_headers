@@ -1,0 +1,13 @@
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self' data:; connect-src 'self' https://intake.stoatworks-labs.com; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'
+
+# script-src needs 'wasm-unsafe-eval': the DSP is a WebAssembly module embedded
+# in occluder.js and compiled at load, and without it Chrome refuses the
+# compile in PRODUCTION ONLY - a local server applies none of this file.
+#
+# connect-src lists the intake origin for the same reason as every other demo:
+# the shared support footer's "Report a bug or send feedback" button POSTs
+# there, and a bare 'self' refuses it.

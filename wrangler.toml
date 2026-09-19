@@ -1,0 +1,22 @@
+# Cloudflare deployment for the Occluder browser demo.
+#
+# A static-assets-only Worker, the shape the rest of the fleet uses. There is
+# no build command: demo/occluder.js is the plugin's DSP compiled to
+# WebAssembly by tools/web/build.sh and committed, so what is committed is
+# what is served. Deploy with, from the repo root:
+#
+#   cf-run npx wrangler deploy
+#
+# demo/_headers carries the CSP and is honoured by the assets runtime.
+
+name = "occluder-demo"
+compatibility_date = "2026-09-19"
+
+[assets]
+directory = "./demo"
+
+# Attached here rather than by hand in the dashboard, so the hostname is part
+# of the repo and a fresh deploy cannot come up without it.
+[[routes]]
+pattern = "occluder-demo.stoatworks-labs.com"
+custom_domain = true

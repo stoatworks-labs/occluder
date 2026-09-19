@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Occluder — browser demo | Stoatworks Labs</title>
+    <meta name="description" content="Try Occluder in your browser: the plugin's own DSP compiled to WebAssembly. One knob from open ears to foam earplugs, on your microphone or any audio file. Nothing leaves your machine." />
+    <meta name="theme-color" content="#0b1420" />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="canonical" href="https://occluder-demo.stoatworks-labs.com/" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <h1>Occluder <span class="tag">browser demo</span></h1>
+        <p class="lede">One knob from open ears to foam earplugs. This page runs the plugin's own DSP,
+          compiled to WebAssembly, on your microphone or any audio file — <strong>nothing you play or
+          say leaves your browser</strong>.</p>
+      </div>
+      <nav class="links" aria-label="Project links">
+        <a href="https://stoatworks-labs.com/software/occluder/">Project page &amp; downloads</a>
+        <a href="https://stoatworks-labs.com/software/occluder/guide/">User guide</a>
+        <a href="https://github.com/stoatworks-labs/occluder">Source on GitHub</a>
+      </nav>
+    </header>
+
+    <main id="demo">
+      <noscript>
+        <p>This demo runs the plugin's DSP in your browser, so it needs JavaScript and Web Audio.
+          The plugin itself, its source and its downloads are on
+          <a href="https://stoatworks-labs.com/software/occluder/">its project page</a>.</p>
+      </noscript>
+
+      <section class="plugin" aria-label="Occluder">
+        <div class="titlebar">
+          <span class="name">Occluder</span>
+          <span class="sub">own-voice occlusion</span>
+        </div>
+        <canvas id="curve" class="curve" width="704" height="240" aria-label="The response the knob is asking for, in dB against frequency"></canvas>
+        <div class="knobrow">
+          <div class="knobwrap">
+            <canvas id="knob" class="knob" width="220" height="220" tabindex="0" role="slider"
+                    aria-label="Occlusion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"
+                    aria-valuetext="50 %"></canvas>
+            <span class="end open">open</span><span class="end plugged">plugged</span>
+          </div>
+          <div class="readout">
+            <output id="value" for="knob">50 %</output>
+            <div class="caption">OCCLUSION</div>
+            <button id="compare" class="hold" type="button" title="Hold to hear the input untouched">Hold to compare</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="sources" aria-label="What to run through it">
+        <div class="buttons">
+          <button id="mic" type="button" class="primary">Use my microphone</button>
+          <button id="file" type="button">Open an audio file…</button>
+          <button id="play" type="button" disabled>Play</button>
+          <button id="stop" type="button" disabled>Stop</button>
+          <input id="fileinput" type="file" accept="audio/*,.wav,.mp3,.m4a,.aac,.flac,.ogg,.opus" hidden />
+        </div>
+        <div class="meter" aria-hidden="true">
+          <span class="label">in</span><div class="bar"><i id="meter-in"></i></div>
+          <span class="label">out</span><div class="bar"><i id="meter-out"></i></div>
+        </div>
+        <p id="status" class="status" aria-live="polite">Pick a source. With the microphone, use headphones — through speakers the microphone hears them and it howls.</p>
+      </section>
+
+      <section class="notes">
+        <h2>What you are hearing</h2>
+        <p>When you speak you hear yourself two ways at once: through the air, which is what a
+          microphone hears too, and through your skull. Block your ears and the skull path is trapped
+          in the ear canal while the air path is shut out — your voice goes boomy and muffled at the
+          same time. That is the <em>occlusion effect</em>, and this is it applied to a recording.</p>
+        <ul>
+          <li><strong>0 — open.</strong> The audio passes through untouched, bit for bit.</li>
+          <li><strong>A touch.</strong> Roughly the difference between a recording of you and you.</li>
+          <li><strong>Half way.</strong> One plug in, or hands cupped over the ears.</li>
+          <li><strong>100 — plugged.</strong> Foam earplugs, pushed in properly: the low mids stay, the
+            consonants are 30 dB down, nothing above 4 kHz survives.</li>
+        </ul>
+        <p>Every setting is trimmed so the level of speech stays put — the knob changes the shape,
+          not the volume — and the trim is shown on the display. The curve is a fit to the published
+          acoustics of a plugged ear, not a low-pass with a name:
+          <a href="https://github.com/stoatworks-labs/occluder/blob/main/docs/DESIGN.md">how it was chosen</a>.</p>
+        <p class="small">Web-only: the output is hard-clipped at −0.2 dBFS so a hot microphone cannot
+          send full scale into your headphones; the plugin has no such stage. The knob is ramped over
+          50 ms, the same as the plugin. Drop an audio file anywhere on this page to load it.</p>
+      </section>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+    <script
+      src="./support-footer.js"
+      defer
+      data-app="Occluder"
+      data-repo="https://github.com/stoatworks-labs/occluder"
+      data-note="A browser demo of the plugin's own DSP. Your microphone and anything you load here stay on your machine."
+    ></script>
+  </body>
+</html>

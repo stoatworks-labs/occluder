@@ -9,3 +9,4 @@ CMakeUserPresets.json
 .cache/
 dist-release/
 build-release/
+.wrangler/

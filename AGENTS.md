@@ -47,6 +47,7 @@ Source/
     Biquad.h                  Allocation-free RBJ peak / high shelf / low shelf, TDF2 state
     OcclusionCurve.{h,cpp}    THE CURVE: constants, design(amount) -> four sections + trim
     Engine.{h,cpp}            Smoothed knob, sub-block redesign, per-channel state, bypass
+    Ramp.h                    The knob's linear ramp; here so DSP/ needs no JUCE (the web build)
   GUI/
     CurveDisplay.{h,cpp}      Draws design(amount) at the session rate, trim included
     OccluderLookAndFeel.*     Palette, rotary knob, text box
@@ -57,6 +58,8 @@ tools/
   ocrender.cpp                File in, file out, at a knob position (listening, A/B)
   ocfilm.cpp                  The video's footage: editor frames + processed audio, one automation
   curve-model.py              The acoustic model and the fit, reproducible
+  web/                        The browser demo's C API, Emscripten build and Node harness
+demo/                         The browser demo as served: page, worklet, built occluder.js, CSP
 docs/
   DESIGN.md                   Why the curve is what it is
   USER-GUIDE.md               The guide (the PDF and site page are generated from it)
@@ -94,6 +97,12 @@ AU logs one benign pluginval warning, *"Current program is -1"*.
 For the editor, `ocshot` renders offscreen: `createComponentSnapshot` on the real editor
 after a 100 ms dispatch loop so the display's timer has seen the knob. No window is needed.
 
+The browser demo (`demo/`, `occluder-demo.stoatworks-labs.com`) is the same `Source/DSP/`
+compiled to WebAssembly by `tools/web/build.sh`; `tools/web/harness.mjs` runs the compiled
+module through ocdsp's checks in 128-frame blocks, and an OfflineAudioContext test of the
+worklet in Chromium measured the design's response to 0.01 dB. It is deployed by hand
+(`cf-run npx wrangler deploy` from the repo root), which is how the fleet's demos ship.
+
 ## 6. Traps
 
 - **`juce::FileOutputStream` appends.** `ocshot` deletes the target first; before it did, every
@@ -106,6 +115,10 @@ after a 100 ms dispatch loop so the display's timer has seen the knob. No window
 - **The Standalone needs `MICROPHONE_PERMISSION_ENABLED`** or macOS kills it when it opens an
   input. The fleet's post-hoc signer grants the audio-input entitlement by looking for that
   same `NSMicrophoneUsageDescription` string, so removing it would also ship a deaf app.
+- **The demo's CSP needs `'wasm-unsafe-eval'`** in `script-src`, or Chrome refuses to compile the
+  embedded module in production only — a local server applies no `_headers` at all.
+- **A canvas arc measures from three o'clock; JUCE's rotary from twelve.** The demo's knob was a
+  quarter turn out until `app.js` subtracted it. Compare the two at 50 %: both point straight up.
 - **`COPY_PLUGIN_AFTER_BUILD` goes to `/Library`, not `~/Library`**, and is off when `CI` is
   set. The system domain is where every host scans and where the `.pkg` installs; a dev
   build there and a release there never sit side by side as duplicates.

@@ -11,6 +11,10 @@
 A one-knob EQ that makes a recorded voice sound the way you hear your own — from open
 ears to foam earplugs in. VST3 / AU / standalone, built with JUCE.
 
+**Try it in the browser:** [occluder-demo.stoatworks-labs.com](https://occluder-demo.stoatworks-labs.com/) —
+the plugin's own DSP compiled to WebAssembly, on your microphone or any audio file. Nothing
+you play or say leaves your browser. See [`demo/`](demo/README.md).
+
 ![Occluder: the response curve at 60 % above one large Occlusion knob, labelled open at one
 end and plugged at the other](docs/screenshots/plugin.png)
 
@@ -101,6 +105,10 @@ processor at a knob position, for listening and A/B sets without a host:
 `tools/ocfilm.cpp` is the project video's footage: frames of the real editor and the audio
 the real processor made, from one knob automation, so what the video shows and what it
 plays are the plugin doing the same thing at the same moment.
+
+The browser demo is verified the same way: `tools/web/build.sh` compiles `Source/DSP/` to
+WebAssembly and `node tools/web/harness.mjs` runs the compiled module through the same
+checks in AudioWorklet-sized blocks.
 
 ## Windows SmartScreen
 
