@@ -115,6 +115,12 @@ info → Run anyway**. Linux has no signing gate.
 - **Standalone:** builds and runs; asks for the microphone the first time, because it is for
   talking into.
 
+<!-- attributions:start -->
+This project is built on other people's work — see [ATTRIBUTIONS.md](ATTRIBUTIONS.md).
+
+**Licensing:** the source here is MIT, but the released binaries link JUCE 8 and are conveyed under the **AGPLv3** — see [ATTRIBUTIONS.md](ATTRIBUTIONS.md) before redistributing them.
+<!-- attributions:end -->
+
 ## Licence
 
 MIT. See [LICENSE](LICENSE). The released binaries are combined works with JUCE and are

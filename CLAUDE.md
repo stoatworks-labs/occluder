@@ -1,7 +1,7 @@
 # occluder (Occluder)
 
-One-knob own-voice occlusion EQ. VST3/AU/Standalone, JUCE 8 / C++20, CMake. Not yet
-released; not yet a fleet repo.
+One-knob own-voice occlusion EQ. VST3/AU/Standalone, JUCE 8 / C++20, CMake. Public fleet repo
+(stoatworks-labs/occluder), released from v0.1.0.
 
 ## Commands (CMake)
 - Configure: `cmake -B build -DCMAKE_BUILD_TYPE=Release`
