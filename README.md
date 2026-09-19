@@ -25,7 +25,48 @@ response the audio is getting, trim included.*
 
 ## Download
 
-Not released yet. Build it (below), or watch this space.
+**[v0.1.0](https://github.com/stoatworks-labs/occluder/releases/tag/v0.1.0)** — prebuilt for macOS, Windows and Linux. Pick your platform:
+
+<details>
+<summary><b>macOS</b> — Universal (Apple Silicon + Intel)</summary>
+
+| Build | Download | Size |
+| --- | --- | --- |
+| Universal (Apple Silicon + Intel) · .dmg disk image | [`occluder-0.1.0-macos-universal.dmg`](https://github.com/stoatworks-labs/occluder/releases/download/v0.1.0/occluder-0.1.0-macos-universal.dmg) | 11 MB |
+| Universal (Apple Silicon + Intel) · .pkg installer | [`occluder-0.1.0-macos-universal.pkg`](https://github.com/stoatworks-labs/occluder/releases/download/v0.1.0/occluder-0.1.0-macos-universal.pkg) | 9.7 MB |
+| Universal (Apple Silicon + Intel) · .zip archive | [`occluder-macos-universal.zip`](https://github.com/stoatworks-labs/occluder/releases/latest/download/occluder-macos-universal.zip) | 9.4 MB |
+
+</details>
+
+<details>
+<summary><b>Windows</b> — x64, ARM64</summary>
+
+| Build | Download | Size |
+| --- | --- | --- |
+| x64 · .exe installer | [`occluder-0.1.0-windows-x86_64-setup.exe`](https://github.com/stoatworks-labs/occluder/releases/download/v0.1.0/occluder-0.1.0-windows-x86_64-setup.exe) | 2.8 MB |
+| ARM64 · .exe installer | [`occluder-0.1.0-windows-aarch64-setup.exe`](https://github.com/stoatworks-labs/occluder/releases/download/v0.1.0/occluder-0.1.0-windows-aarch64-setup.exe) | 2.5 MB |
+| x64 · .zip archive | [`occluder-windows-x86_64.zip`](https://github.com/stoatworks-labs/occluder/releases/latest/download/occluder-windows-x86_64.zip) | 5.0 MB |
+| ARM64 · .zip archive | [`occluder-windows-aarch64.zip`](https://github.com/stoatworks-labs/occluder/releases/latest/download/occluder-windows-aarch64.zip) | 4.9 MB |
+
+</details>
+
+<details>
+<summary><b>Linux</b> — x64, ARM64</summary>
+
+| Build | Download | Size |
+| --- | --- | --- |
+| x64 · .deb package (Debian/Ubuntu) | [`occluder_0.1.0_amd64.deb`](https://github.com/stoatworks-labs/occluder/releases/download/v0.1.0/occluder_0.1.0_amd64.deb) | 2.1 MB |
+| ARM64 · .deb package (Debian/Ubuntu) | [`occluder_0.1.0_arm64.deb`](https://github.com/stoatworks-labs/occluder/releases/download/v0.1.0/occluder_0.1.0_arm64.deb) | 2.1 MB |
+| x64 · .rpm package (Fedora/RHEL) | [`occluder-0.1.0-1.x86_64.rpm`](https://github.com/stoatworks-labs/occluder/releases/download/v0.1.0/occluder-0.1.0-1.x86_64.rpm) | 2.2 MB |
+| ARM64 · .rpm package (Fedora/RHEL) | [`occluder-0.1.0-1.aarch64.rpm`](https://github.com/stoatworks-labs/occluder/releases/download/v0.1.0/occluder-0.1.0-1.aarch64.rpm) | 2.2 MB |
+| x64 · .zip archive | [`occluder-linux-x86_64.zip`](https://github.com/stoatworks-labs/occluder/releases/latest/download/occluder-linux-x86_64.zip) | 4.2 MB |
+| ARM64 · .zip archive | [`occluder-linux-aarch64.zip`](https://github.com/stoatworks-labs/occluder/releases/latest/download/occluder-linux-aarch64.zip) | 4.2 MB |
+
+</details>
+
+All builds, checksums and release notes: [github.com/stoatworks-labs/occluder/releases](https://github.com/stoatworks-labs/occluder/releases).
+
+The Windows builds are unsigned, so SmartScreen warns once — see [Windows SmartScreen](#windows-smartscreen) for the one-time click-through.
 
 <!-- downloads:end -->
 
@@ -112,9 +153,11 @@ checks in AudioWorklet-sized blocks.
 
 ## Windows SmartScreen
 
-Released macOS builds are Developer ID-signed and notarised. Windows builds are not
-code-signed: plugin files load normally, but the **installer** trips SmartScreen — **More
-info → Run anyway**. Linux has no signing gate.
+The download block above says whether this release's macOS builds are signed and
+notarised — the fleet's signer does that after each release, and the block is regenerated
+once it has. Before that, macOS asks once: right-click the installer, **Open**. Windows
+builds are not code-signed: plugin files load normally, but the **installer** trips
+SmartScreen — **More info → Run anyway**. Linux has no signing gate.
 
 ## Status
 
