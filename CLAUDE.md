@@ -9,6 +9,7 @@ One-knob own-voice occlusion EQ. VST3/AU/Standalone, JUCE 8 / C++20, CMake. Publ
 - DSP checks: `./build/ocdsp_artefacts/Release/ocdsp` (also `ctest --test-dir build`)
 - Screenshots: `./build/ocshot_artefacts/Release/ocshot docs/screenshots/plugin.png 60`
 - Render a file: `./build/ocrender_artefacts/Release/ocrender in.wav out.wav 100`
+- Video footage: `./build/ocfilm_artefacts/Release/ocfilm voice.wav automation.txt frames/ audio.wav` (driven by stoatworks-backend/video/projects/occluder/render.py)
 - Hosts: `pluginval --strictness-level 10 --validate <bundle>`, `auval -v aufx Occl Alsg`
 
 ## Notes
@@ -23,8 +24,8 @@ One-knob own-voice occlusion EQ. VST3/AU/Standalone, JUCE 8 / C++20, CMake. Publ
 - A local macOS build copies the plug-ins into `/Library/Audio/Plug-Ins/` (system domain).
   Move, don't copy, if you relocate them, or hosts show duplicates.
 - Public-repo posture: ships the AI-assisted disclaimer in the README. "Commit" = commit
-  **and** push. Never leave test scaffolding in `CMakeLists.txt`: `ocdsp`, `ocshot` and `ocrender`
-  are the permanent tools.
+  **and** push. Never leave test scaffolding in `CMakeLists.txt`: `ocdsp`, `ocshot`, `ocrender` and
+  `ocfilm` are the permanent tools.
 
 ## Verifying DSP changes
 `tools/ocdsp.cpp` is the harness; extend it rather than writing a throwaway. The stimulus must

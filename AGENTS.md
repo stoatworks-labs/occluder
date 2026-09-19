@@ -55,6 +55,7 @@ tools/
   ocdsp.cpp                   The DSP checks (permanent; `ctest` runs it)
   ocshot.cpp                  Renders the real editor to PNG for the docs
   ocrender.cpp                File in, file out, at a knob position (listening, A/B)
+  ocfilm.cpp                  The video's footage: editor frames + processed audio, one automation
   curve-model.py              The acoustic model and the fit, reproducible
 docs/
   DESIGN.md                   Why the curve is what it is
@@ -116,6 +117,7 @@ after a 100 ms dispatch loop so the display's timer has seen the knob. No window
 
 - Listened to only as `ocrender` output of a synthesised voice; not used on a show, and it
   has met no DAW but pluginval's and auval's hosts.
-- No demo video yet.
+- The demo video is rendered by `ocfilm` through `stoatworks-backend/video/projects/occluder/`;
+  its YouTube ID lands in `projects.json` and the README once uploaded.
 - `scripts/release-local.sh` is zero-eq's with the names swapped and has not been run; the
   release path is the tag → `release.yml` → autosign one.

@@ -98,6 +98,10 @@ processor at a knob position, for listening and A/B sets without a host:
 ./build/ocrender_artefacts/Release/ocrender voice.wav plugged.wav 100
 ```
 
+`tools/ocfilm.cpp` is the project video's footage: frames of the real editor and the audio
+the real processor made, from one knob automation, so what the video shows and what it
+plays are the plugin doing the same thing at the same moment.
+
 ## Windows SmartScreen
 
 Released macOS builds are Developer ID-signed and notarised. Windows builds are not

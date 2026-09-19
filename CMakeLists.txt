@@ -143,3 +143,23 @@ target_link_libraries(ocrender PRIVATE
     juce::juce_audio_formats
     juce::juce_recommended_config_flags
     juce::juce_recommended_warning_flags)
+
+# --------------------------------------------------------------------------------------
+# ocfilm - the project video's footage: frames of the real editor plus the audio the real
+# processor made, from one knob automation. See tools/ocfilm.cpp.
+# --------------------------------------------------------------------------------------
+juce_add_console_app(ocfilm PRODUCT_NAME "ocfilm")
+juce_generate_juce_header(ocfilm)
+target_sources(ocfilm PRIVATE tools/ocfilm.cpp)
+target_compile_definitions(ocfilm PUBLIC
+    JUCE_WEB_BROWSER=0
+    JUCE_USE_CURL=0
+    JUCE_DISPLAY_SPLASH_SCREEN=0
+    JUCE_MODAL_LOOPS_PERMITTED=1)
+target_include_directories(ocfilm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(ocfilm PRIVATE
+    Occluder
+    juce::juce_audio_utils
+    juce::juce_audio_formats
+    juce::juce_recommended_config_flags
+    juce::juce_recommended_warning_flags)
