@@ -8,6 +8,7 @@ released; not yet a fleet repo.
 - Build: `cmake --build build`
 - DSP checks: `./build/ocdsp_artefacts/Release/ocdsp` (also `ctest --test-dir build`)
 - Screenshots: `./build/ocshot_artefacts/Release/ocshot docs/screenshots/plugin.png 60`
+- Render a file: `./build/ocrender_artefacts/Release/ocrender in.wav out.wav 100`
 - Hosts: `pluginval --strictness-level 10 --validate <bundle>`, `auval -v aufx Occl Alsg`
 
 ## Notes
@@ -22,8 +23,8 @@ released; not yet a fleet repo.
 - A local macOS build copies the plug-ins into `/Library/Audio/Plug-Ins/` (system domain).
   Move, don't copy, if you relocate them, or hosts show duplicates.
 - Public-repo posture: ships the AI-assisted disclaimer in the README. "Commit" = commit
-  **and** push. Never leave test scaffolding in `CMakeLists.txt`: `ocdsp` and `ocshot` are the
-  two permanent tools.
+  **and** push. Never leave test scaffolding in `CMakeLists.txt`: `ocdsp`, `ocshot` and `ocrender`
+  are the permanent tools.
 
 ## Verifying DSP changes
 `tools/ocdsp.cpp` is the harness; extend it rather than writing a throwaway. The stimulus must

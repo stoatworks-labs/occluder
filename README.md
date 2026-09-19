@@ -91,7 +91,12 @@ auval -v aufx Occl Alsg
 ```
 
 `tools/ocshot.cpp` renders the editor offscreen for the screenshots above, so they are the
-plugin rather than a picture of it.
+plugin rather than a picture of it. `tools/ocrender.cpp` runs a file through the shipped
+processor at a knob position, for listening and A/B sets without a host:
+
+```bash
+./build/ocrender_artefacts/Release/ocrender voice.wav plugged.wav 100
+```
 
 ## Windows SmartScreen
 

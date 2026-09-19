@@ -124,3 +124,22 @@ target_link_libraries(ocshot PRIVATE
     juce::juce_audio_utils
     juce::juce_recommended_config_flags
     juce::juce_recommended_warning_flags)
+
+# --------------------------------------------------------------------------------------
+# ocrender - runs a file through the shipped processor at a knob position, for listening
+# and A/B sets without a host. See tools/ocrender.cpp.
+# --------------------------------------------------------------------------------------
+juce_add_console_app(ocrender PRODUCT_NAME "ocrender")
+juce_generate_juce_header(ocrender)
+target_sources(ocrender PRIVATE tools/ocrender.cpp)
+target_compile_definitions(ocrender PUBLIC
+    JUCE_WEB_BROWSER=0
+    JUCE_USE_CURL=0
+    JUCE_DISPLAY_SPLASH_SCREEN=0)
+target_include_directories(ocrender PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(ocrender PRIVATE
+    Occluder
+    juce::juce_audio_utils
+    juce::juce_audio_formats
+    juce::juce_recommended_config_flags
+    juce::juce_recommended_warning_flags)
