@@ -11,6 +11,12 @@
 A one-knob EQ that makes a recorded voice sound the way you hear your own — from open
 ears to foam earplugs in. VST3 / AU / standalone, built with JUCE.
 
+**Video:** [What it does, in 49 seconds](https://www.youtube.com/watch?v=g5Z5TZsy74k) —
+everything you hear went through the plugin.
+
+[![Occluder: the editor at 100 % beside the name and the line "one knob from open ears to
+earplugs"](docs/video-thumb.png)](https://www.youtube.com/watch?v=g5Z5TZsy74k)
+
 **Try it in the browser:** [occluder-demo.stoatworks-labs.com](https://occluder-demo.stoatworks-labs.com/) —
 the plugin's own DSP compiled to WebAssembly, on your microphone or any audio file. Nothing
 you play or say leaves your browser. See [`demo/`](demo/README.md).
