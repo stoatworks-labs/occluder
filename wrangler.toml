@@ -3,7 +3,8 @@
 # A static-assets-only Worker, the shape the rest of the fleet uses. There is
 # no build command: demo/occluder.js is the plugin's DSP compiled to
 # WebAssembly by tools/web/build.sh and committed, so what is committed is
-# what is served. Deploy with, from the repo root:
+# what is served. .github/workflows/deploy.yml deploys it on a push to main
+# that touches demo/ or this file; by hand, from the repo root:
 #
 #   cf-run npx wrangler deploy
 #

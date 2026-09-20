@@ -40,7 +40,10 @@ the dial, and a click-free slam of the knob.
 
 ## Deploy
 
-Static-assets-only Cloudflare Worker (`../wrangler.toml`), from the repo root:
+Static-assets-only Cloudflare Worker (`../wrangler.toml`). A push to `main` that touches
+`demo/` or `wrangler.toml` deploys through `.github/workflows/deploy.yml` (wrangler pinned,
+`CLOUDFLARE_API_TOKEN` secret + `CLOUDFLARE_ACCOUNT_ID` variable on the repo) and then checks
+the live `<head>` matches the commit. By hand, from the repo root:
 
 ```bash
 cf-run npx wrangler deploy

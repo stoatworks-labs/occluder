@@ -1,0 +1,93 @@
+# Put the browser demo in front of visitors when it changes.
+#
+# The same shape as the fleet's other deploy workflows (negative-space is the
+# house pattern), minus the build: demo/ is served as committed, because
+# demo/occluder.js is the plugin's DSP compiled by tools/web/build.sh and
+# checked in. So this runs only when something under demo/ or the Worker
+# config moves - a DSP change reaches the demo when its rebuilt module is
+# committed, not before.
+#
+# The first deploy was done by hand (cf-run npx wrangler deploy): a brand-new
+# custom domain can take minutes to resolve, longer than the live check below
+# waits, so a workflow's first run would go red on a deploy that worked.
+
+name: deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "demo/**"
+      - "wrangler.toml"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+# Newest push wins. wrangler uploads the assets first and activates the
+# version as one step at the end, so a run cancelled part way through never
+# becomes the live version.
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      # Fail in a second rather than after an upload. A deploy that cannot
+      # authenticate is the whole point of this job failing to happen.
+      - name: Check the Cloudflare token is present
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${TOKEN:-}" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN is not set on this repository, so the"
+            echo "::error::demo cannot be deployed. cf-run uses such a token from the"
+            echo "::error::login keychain under the service name 'stoatworks-cloudflare':"
+            echo "::error::  security find-generic-password -s stoatworks-cloudflare -a api-token -w \\"
+            echo "::error::    | gh secret set CLOUDFLARE_API_TOKEN --repo stoatworks-labs/occluder"
+            exit 1
+          fi
+          echo "token present - ok"
+
+      # wrangler is not a dependency of this project, so the version is pinned
+      # here rather than left to resolve to latest. Bump it deliberately.
+      - name: Deploy to Cloudflare
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          # wrangler's first-run metrics consent prompt would hang a
+          # non-interactive run for ever.
+          WRANGLER_SEND_METRICS: "false"
+        run: npx --yes wrangler@4.116.0 deploy
+
+      # Prove it landed, against the domain a visitor uses. The whole body
+      # cannot be compared: Cloudflare injects a bot-management script before
+      # </body> with a per-request nonce. The <head> is untouched by that and
+      # changes with the page, so its hash is the check.
+      - name: Check the live demo is serving this build
+        run: |
+          set -euo pipefail
+          want=$(sed -n '1,/<\/head>/p' demo/index.html | shasum -a 256 | cut -d' ' -f1)
+          echo "expecting the live <head> to hash to $want"
+          for attempt in 1 2 3 4 5; do
+            got=$(curl -sS --max-time 30 "https://occluder-demo.stoatworks-labs.com/" \
+                  | sed -n '1,/<\/head>/p' | shasum -a 256 | cut -d' ' -f1 || true)
+            if [ "$got" = "$want" ]; then
+              echo "live demo is serving this build (attempt $attempt)"
+              exit 0
+            fi
+            echo "not there yet, got $got - retrying in 10s (attempt $attempt)"
+            sleep 10
+          done
+          echo "::error::Deployed, but https://occluder-demo.stoatworks-labs.com/ is"
+          echo "::error::still not serving this build's <head>. The upload succeeded, so"
+          echo "::error::this is the edge serving something else - check the Worker's"
+          echo "::error::routes, and that occluder-demo is what the custom domain points at."
+          exit 1

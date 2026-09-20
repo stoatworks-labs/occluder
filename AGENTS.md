@@ -100,8 +100,10 @@ after a 100 ms dispatch loop so the display's timer has seen the knob. No window
 The browser demo (`demo/`, `occluder-demo.stoatworks-labs.com`) is the same `Source/DSP/`
 compiled to WebAssembly by `tools/web/build.sh`; `tools/web/harness.mjs` runs the compiled
 module through ocdsp's checks in 128-frame blocks, and an OfflineAudioContext test of the
-worklet in Chromium measured the design's response to 0.01 dB. It is deployed by hand
-(`cf-run npx wrangler deploy` from the repo root), which is how the fleet's demos ship.
+worklet in Chromium measured the design's response to 0.01 dB. A push to main that touches
+`demo/` or `wrangler.toml` deploys it (`.github/workflows/deploy.yml`, wrangler pinned, live
+`<head>` hash check); the first deploy was by hand, as a brand-new custom domain resolves too
+slowly for a workflow's live check.
 
 ## 6. Traps
 

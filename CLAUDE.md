@@ -11,7 +11,7 @@ One-knob own-voice occlusion EQ. VST3/AU/Standalone, JUCE 8 / C++20, CMake. Publ
 - Render a file: `./build/ocrender_artefacts/Release/ocrender in.wav out.wav 100`
 - Video footage: `./build/ocfilm_artefacts/Release/ocfilm voice.wav automation.txt frames/ audio.wav` (driven by stoatworks-backend/video/projects/occluder/render.py)
 - Hosts: `pluginval --strictness-level 10 --validate <bundle>`, `auval -v aufx Occl Alsg`
-- Browser demo: `tools/web/build.sh` (Emscripten) then `node tools/web/harness.mjs`; deploy with `cf-run npx wrangler deploy` from the repo root; serve locally from `demo/`
+- Browser demo: `tools/web/build.sh` (Emscripten) then `node tools/web/harness.mjs`; a push to main touching `demo/` deploys it (deploy.yml), or `cf-run npx wrangler deploy` by hand; serve locally from `demo/`
 
 ## Notes
 - The curve is `Source/DSP/OcclusionCurve.{h,cpp}` and nothing else. Its constants are a fit
