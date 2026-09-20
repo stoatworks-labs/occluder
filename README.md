@@ -38,9 +38,9 @@ response the audio is getting, trim included.*
 
 | Build | Download | Size |
 | --- | --- | --- |
-| Universal (Apple Silicon + Intel) · .dmg disk image | [`occluder-0.1.0-macos-universal.dmg`](https://github.com/stoatworks-labs/occluder/releases/download/v0.1.0/occluder-0.1.0-macos-universal.dmg) | 11 MB |
+| Universal (Apple Silicon + Intel) · .dmg disk image | [`occluder-0.1.0-macos-universal.dmg`](https://github.com/stoatworks-labs/occluder/releases/download/v0.1.0/occluder-0.1.0-macos-universal.dmg) | 9.7 MB |
 | Universal (Apple Silicon + Intel) · .pkg installer | [`occluder-0.1.0-macos-universal.pkg`](https://github.com/stoatworks-labs/occluder/releases/download/v0.1.0/occluder-0.1.0-macos-universal.pkg) | 9.7 MB |
-| Universal (Apple Silicon + Intel) · .zip archive | [`occluder-macos-universal.zip`](https://github.com/stoatworks-labs/occluder/releases/latest/download/occluder-macos-universal.zip) | 9.4 MB |
+| Universal (Apple Silicon + Intel) · .zip archive | [`occluder-macos-universal.zip`](https://github.com/stoatworks-labs/occluder/releases/latest/download/occluder-macos-universal.zip) | 9.7 MB |
 
 </details>
 
@@ -72,7 +72,7 @@ response the audio is getting, trim included.*
 
 All builds, checksums and release notes: [github.com/stoatworks-labs/occluder/releases](https://github.com/stoatworks-labs/occluder/releases).
 
-The Windows builds are unsigned, so SmartScreen warns once — see [Windows SmartScreen](#windows-smartscreen) for the one-time click-through.
+macOS builds are signed and notarised and open normally. The Windows builds are unsigned, so SmartScreen warns once — see [Windows SmartScreen](#windows-smartscreen) for the one-time click-through.
 
 <!-- downloads:end -->
 
