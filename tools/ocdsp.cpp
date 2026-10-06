@@ -34,18 +34,34 @@
 #include "Source/PluginProcessor.h"
 
 // ---------------------------------------------------------------- allocation counting
+// Every allocation in the process is counted, and those made on a thread that has set
+// t_onProcessingPath are counted again on their own. The check is on the second number:
+// JUCE runs threads of its own here, and whether one of them allocates inside the measured
+// window is a matter of timing. v0.1.1's release failed the whole-process count on the macOS
+// and Windows runners (1 allocation each); counted per thread on the same runners, the
+// processing thread made none and another thread made that one (windows-x86_64, run
+// 37445427398) - a failure that said nothing about the DSP.
 static std::atomic<long> g_allocations { 0 };
+static std::atomic<long> g_processingAllocations { 0 };
+static thread_local bool t_onProcessingPath = false;
+
+static void countAllocation()
+{
+    g_allocations.fetch_add(1, std::memory_order_relaxed);
+    if (t_onProcessingPath)
+        g_processingAllocations.fetch_add(1, std::memory_order_relaxed);
+}
 
 void* operator new(std::size_t n)
 {
-    g_allocations.fetch_add(1, std::memory_order_relaxed);
+    countAllocation();
     if (void* p = std::malloc(n ? n : 1))
         return p;
     throw std::bad_alloc();
 }
 void* operator new[](std::size_t n)
 {
-    g_allocations.fetch_add(1, std::memory_order_relaxed);
+    countAllocation();
     if (void* p = std::malloc(n ? n : 1))
         return p;
     throw std::bad_alloc();
@@ -366,15 +382,20 @@ static void testNoAllocations()
     rig.setAmount(0.3);
     rig.run(buf);   // first block after a parameter change, outside the count
 
-    const long before = g_allocations.load();
+    const long allBefore = g_allocations.load();
+    const long before = g_processingAllocations.load();
+    t_onProcessingPath = true;
     for (int b = 0; b < 100; ++b)
     {
         // Move the knob every block so the redesign path is exercised too.
         rig.setAmount(0.2 + 0.6 * (double) (b % 10) / 10.0);
         rig.run(buf);
     }
-    const long after = g_allocations.load();
-    check(after == before, "100 blocks with the knob moving: zero allocations", juce::String(after - before) + " allocations");
+    t_onProcessingPath = false;
+    const long after = g_processingAllocations.load();
+    const long others = (g_allocations.load() - allBefore) - (after - before);
+    check(after == before, "100 blocks with the knob moving: zero allocations on the processing thread",
+          juce::String(after - before) + " allocations (other threads meanwhile: " + juce::String(others) + ")");
 }
 
 static void testStateRoundTrip()
