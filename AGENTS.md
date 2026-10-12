@@ -132,7 +132,7 @@ slowly for a workflow's live check.
 
 - Listened to only as `ocrender` output of a synthesised voice; not used on a show, and it
   has met no DAW but pluginval's and auval's hosts.
-- The demo video is rendered by `ocfilm` through `stoatworks-backend/video/projects/occluder/`;
-  its YouTube ID lands in `projects.json` and the README once uploaded.
+- The demo video is rendered by `ocfilm` through `stoatworks-backend/video/projects/occluder/`.
+  It's uploaded (YouTube `g5Z5TZsy74k`), and the ID is in `projects.json` and the README.
 - `scripts/release-local.sh` is zero-eq's with the names swapped and has not been run; the
   release path is the tag → `release.yml` → autosign one.
